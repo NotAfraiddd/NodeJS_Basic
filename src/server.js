@@ -1,20 +1,17 @@
-import express from "express";
+import express from 'express';
 import configViewEngine from './config/viewEngine';
+import initWebRoute from './router/web';
 
+require('dotenv').config();
 
 const app = express();
-const port = 8080;
+const port = process.env.PORT;
 
+// *setup view engine
 configViewEngine(app);
-
-app.get('/', (req, res) => {
-    res.render('index.ejs')
-})
-
-app.get('/about', (req, res) => {
-    res.send('Hello, world abc');
-})
+// *init web route
+initWebRoute(app);
 
 app.listen(port, () => {
-    console.log('100%');
+  console.log('100%');
 });
