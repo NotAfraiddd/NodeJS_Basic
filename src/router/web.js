@@ -5,7 +5,6 @@ let router = express.Router();
 const initWebRoute = (app) => {
   // ! khi muốn lấy thông tin về dùng GET
   router.get('/', getHomePage);
-  router.get('/about', getHomePage);
 
   return app.use('/', router);
 };

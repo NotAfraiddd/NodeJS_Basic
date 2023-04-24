@@ -1,14 +1,11 @@
-const { default: connection } = require('../config/connectDB');
-
-let getHomePage = (req, res) => {
-  //  ? simple query
-  let data = [];
-  connection.query(' SELECT * FROM `users` ', function (err, results, fields) {
-    data = results.map((row) => {
-      return row;
-    });
-    return res.render('index.ejs', { dataUser: JSON.stringify(data) });
-  });
+import db from '../models/index';
+let getHomePage = async (req, res) => {
+  try {
+    let data = await db.User.findAll();
+    return res.render('HomePage.ejs', { data: JSON.stringify(data) });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 module.exports = {
