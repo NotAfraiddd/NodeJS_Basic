@@ -63,6 +63,9 @@ let updateUserData = (data) => {
       let userData = await db.User.findOne({
         where: { id: data.id },
       });
+      if (userData) {
+        userData.firstName = data.firstName;
+      }
       await db.User.update({
         where: { id: data.id },
       });
