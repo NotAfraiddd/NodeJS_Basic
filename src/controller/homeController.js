@@ -40,8 +40,10 @@ let editGetCRUD = async (req, res) => {
 
 let putCRUD = async (req, res) => {
   let data = req.body;
-  await CRUDService.updateUserData(data);
-  return res.send('xong');
+  let allUser = await CRUDService.updateUserData(data);
+  return res.render('DisplayCRUD.ejs', {
+    dataTable: allUser,
+  });
 };
 
 module.exports = {

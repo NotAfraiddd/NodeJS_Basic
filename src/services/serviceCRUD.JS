@@ -1,6 +1,6 @@
 var bcrypt = require('bcryptjs');
-const db = require('../models');
 var salt = bcrypt.genSaltSync(10);
+const db = require('../models');
 let createNewUser = async (data) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -65,10 +65,19 @@ let updateUserData = (data) => {
       });
       if (userData) {
         userData.firstName = data.firstName;
+        userData.email = data.email;
+        userData.lastName = data.lastName;
+        userData.address = data.phoneNumber;
+        userData.phoneNumber = data.phoneNumber;
+        userData.gender = data.gender == 0 ? true : false;
+        userData.image = data.image;
+        userData.roleId = data.roleId;
+        await userData.save();
+        let allUser = await db.User.findAll();
+        resolve(allUser);
+      } else {
+        console.log('Loi update');
       }
-      await db.User.update({
-        where: { id: data.id },
-      });
     } catch (error) {
       reject(error);
     }
