@@ -21,8 +21,8 @@ const initWebRoute = (app) => {
   router.post('/get-crud', putCRUD);
   router.get('/delete-crud', deleteCRUD);
   // ? API for nodejs
-
   router.post('/api/login', userController.handleLogin);
+  router.get('/api/get-all-user', userController.handleGetAllUser);
 
   return app.use('/', router);
 };

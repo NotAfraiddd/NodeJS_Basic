@@ -16,7 +16,6 @@ let handleLogin = async (req, res) => {
       message: 'Missing inputs',
     });
   }
-
   let user = await userService.handleUserLogin(email, password);
   return res.status(200).json({
     errCode: user.errCode,
@@ -25,6 +24,24 @@ let handleLogin = async (req, res) => {
   });
 };
 
+let handleGetAllUser = async (req, res) => {
+  let type = req.body.id; //? type means 'All, id'
+  if (!type) {
+    return res.status(200).json({
+      errCode: 1,
+      message: 'Missing required ID',
+      userData: '',
+    });
+  } else {
+    let users = await userService.getAllUsers(type);
+    return res.status(200).json({
+      errCode: 0,
+      message: 'OK',
+      userData: users,
+    });
+  }
+};
 module.exports = {
   handleLogin,
+  handleGetAllUser,
 };
