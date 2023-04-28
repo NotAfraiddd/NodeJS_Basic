@@ -3,10 +3,11 @@ import configViewEngine from './config/viewEngine';
 import initWebRoute from './router/web';
 import connectDB from './config/connectDB';
 import bodyParser from 'body-parser';
-
+const cors = require('cors');
 require('dotenv').config();
 
 const app = express();
+app.use(cors()); // Cấu hình cho phép CORS
 const port = process.env.PORT;
 //* config app
 app.use(bodyParser.json());
