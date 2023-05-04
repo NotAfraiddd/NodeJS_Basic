@@ -1,5 +1,7 @@
 import db from '../models/index';
 import bcrypt from 'bcryptjs';
+var salt = bcrypt.genSaltSync(10);
+
 /**
  * @description login
  * @param {*} email
@@ -96,7 +98,52 @@ let getAllUsers = (type) => {
     }
   });
 };
+
+let createNewUser = (data) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let checkEmail = await checkUserEmail(data.email);
+      if (checkEmail === true) {
+        // ! phải trả về return nếu không nó sẽ bị trùng email nhưng vẫn tạo
+        return resolve({
+          errCode: 1,
+          message: 'Email already',
+        });
+      }
+      let hashPasswordForm = await hashUserPassword(data.password);
+      await db.User.create({
+        email: data.email,
+        password: hashPasswordForm,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        address: data.phoneNumber,
+        phoneNumber: data.phoneNumber,
+        gender: data.gender == 0 ? true : false,
+        image: data.image,
+        roleId: data.roleId,
+      });
+      resolve({
+        errCode: 0,
+        message: 'OKAY',
+      });
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+let hashUserPassword = (pass) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let hashPassword = await bcrypt.hashSync(pass, salt);
+      resolve(hashPassword);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
 module.exports = {
   handleUserLogin,
   getAllUsers,
+  createNewUser,
 };

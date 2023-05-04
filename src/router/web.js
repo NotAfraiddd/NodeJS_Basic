@@ -7,6 +7,7 @@ import {
   editGetCRUD,
   putCRUD,
   deleteCRUD,
+  handleCreateNewUser
 } from '../controller/homeController';
 import userController from '../controller/userController';
 let router = express.Router();
@@ -23,6 +24,7 @@ const initWebRoute = (app) => {
   // ? API for nodejs
   router.post('/api/login', userController.handleLogin);
   router.get('/api/get-all-user', userController.handleGetAllUser);
+  router.post('/api/create-new-user', userController.handleCreateNewUser);
 
   return app.use('/', router);
 };

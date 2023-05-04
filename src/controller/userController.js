@@ -1,5 +1,4 @@
 import userService from '../services/userService';
-
 /**
  * @description login
  * @param {*} req
@@ -23,9 +22,14 @@ let handleLogin = async (req, res) => {
     userData: user.user ? user.user : {},
   });
 };
-
+/**
+ *
+ * @param {*} req
+ * @param {*} res
+ * @returns get all users
+ */
 let handleGetAllUser = async (req, res) => {
-  //! let type = req.body.id 
+  //! let type = req.body.id
   //? thì sẽ truy cập thẳng vào body dùng postman là bên body
   //! let type = req.query.id
   //? thì dùng params
@@ -45,7 +49,14 @@ let handleGetAllUser = async (req, res) => {
     });
   }
 };
+
+let handleCreateNewUser = async (req, res) => {
+  let data = await userService.createNewUser(req.body);
+  return res.status(200).json(data);
+};
+
 module.exports = {
   handleLogin,
   handleGetAllUser,
+  handleCreateNewUser,
 };
