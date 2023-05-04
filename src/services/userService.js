@@ -75,14 +75,14 @@ let getAllUsers = (type) => {
   return new Promise(async (resolve, reject) => {
     try {
       let user = '';
-      if (type === 'All') {
+      if (type === 'All' || type === 'all') {
         user = db.User.findAll({
           attributes: {
             exclude: ['password'], //? don't show columns you choose
           },
         });
       }
-      if (type && type !== 'All') {
+      if (type && type !== 'All' && type !== 'all') {
         user = db.User.findOne({
           where: { id: type },
           attributes: {

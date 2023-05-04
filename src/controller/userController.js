@@ -25,7 +25,11 @@ let handleLogin = async (req, res) => {
 };
 
 let handleGetAllUser = async (req, res) => {
-  let type = req.body.id; //? type means 'All, id'
+  //! let type = req.body.id 
+  //? thì sẽ truy cập thẳng vào body dùng postman là bên body
+  //! let type = req.query.id
+  //? thì dùng params
+  let type = req.query.id; //? type means 'All, id'
   if (!type) {
     return res.status(200).json({
       errCode: 1,
