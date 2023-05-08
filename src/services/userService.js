@@ -142,8 +142,68 @@ let hashUserPassword = (pass) => {
     }
   });
 };
+
+let deleteUser = (userID) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let user = await db.User.destroy({ where: { id: userID } });
+      if (!user) {
+        resolve({
+          errCode: 2,
+          errMessage: "user isn't exist",
+        });
+      }
+      resolve({
+        errCode: 0,
+        errMessage: 'Deleted user',
+      });
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+let editUser = (data) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (!data.id) {
+        resolve({
+          errCode: 2,
+          errMessage: "UserID isn't exist",
+        });
+      }
+      let userData = await db.User.findOne({
+        where: { id: data.id },
+        raw: false,
+      });
+      if (userData) {
+        userData.firstName = data.firstName;
+        userData.email = data.email;
+        userData.lastName = data.lastName;
+        userData.address = data.phoneNumber;
+        userData.phoneNumber = data.phoneNumber;
+        userData.gender = data.gender == 0 ? true : false;
+        userData.image = data.image;
+        userData.roleId = data.roleId;
+        await userData.save();
+        resolve({
+          errCode: 0,
+          errMessage: 'Updated user',
+        });
+      }
+      resolve({
+        errCode: 1,
+        errMessage: "User isn't exist",
+      });
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
 module.exports = {
   handleUserLogin,
   getAllUsers,
   createNewUser,
+  deleteUser,
+  editUser,
 };
